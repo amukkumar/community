@@ -1,33 +1,29 @@
-import React from 'react'
-import TopFilter from '@/components/mycomponents/topFilter'
-import FeedPost from '@/components/mycomponents/feedPost'
-import { getPosts } from '@/api/post'
+// "use client"
+// import { useEffect } from 'react';
 
-function getCookie(name) {
-  const value = `; ${document.cookie}`;
-  const parts = value.split(`; ${name}=`);
-  if (parts.length === 2) return parts.pop().split(';').shift();
+// function getCookie(name) {
+//   const value = `; ${document.cookie}`;
+//   const parts = value.split(`; ${name}=`);
+//   if (parts.length === 2) return parts.pop().split(';').shift();
+// }
+
+// export default function HomePage() {
+//   useEffect(() => {
+//     const sharedData = getCookie('sharedData');
+//     console.log('Shared Data:', sharedData); // Output: user123
+//   }, []);
+
+//   return <div>Welcome to the Community!</div>;
+// }
+
+
+import { cookies } from 'next/headers';
+
+export default function HomePage() {
+  // Use the cookies() utility to access cookies in a server component
+  const cookieStore = cookies();
+  const sharedData = cookieStore.get('sharedData')?.value || 'No shared data';
+  console.log(sharedData);
+
+  return <div>Shared Data: {sharedData}</div>;
 }
-
-async function Home() {
-
-  const response = await getPosts();
-
-  useEffect(() => {
-    const sharedData = getCookie('sharedData');
-    console.log('Shared Data:', sharedData); // Output: user123
-  }, []);
-
-  return (
-    <div className=''>
-      <TopFilter />
-      <div className=''>
-        {response.data.data.map((item, index) => (
-          <FeedPost key={index} data={item} />
-        ))}
-      </div>
-    </div>
-  )
-}
-
-export default Home
