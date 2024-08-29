@@ -1,29 +1,33 @@
-import React from 'react';
-import TopFilter from '@/components/mycomponents/topFilter';
-import FeedPost from '@/components/mycomponents/feedPost';
-import { getPosts } from '@/api/post';
-import cookie from 'cookie';
+import React from 'react'
+import TopFilter from '@/components/mycomponents/topFilter'
+import FeedPost from '@/components/mycomponents/feedPost'
+import { getPosts } from '@/api/post'
 
-export default async function HomePage({ searchParams }) {
-  // Fetch posts on the server side
+function getCookie(name) {
+  const value = `; ${document.cookie}`;
+  const parts = value.split(`; ${name}=`);
+  if (parts.length === 2) return parts.pop().split(';').shift();
+}
+
+async function Home() {
+
   const response = await getPosts();
 
-  // Parse the cookies from the incoming request (via searchParams if applicable)
-  const cookies = searchParams?.cookies ? cookie.parse(searchParams.cookies) : {};
-  const sharedData = cookies.sharedData || null;
-
-  console.log('Shared Data:', sharedData); // Output: user123
+  useEffect(() => {
+    const sharedData = getCookie('sharedData');
+    console.log('Shared Data:', sharedData); // Output: user123
+  }, []);
 
   return (
     <div className=''>
       <TopFilter />
-      {sharedData}
-      adsf
       <div className=''>
         {response.data.data.map((item, index) => (
           <FeedPost key={index} data={item} />
         ))}
       </div>
     </div>
-  );
+  )
 }
+
+export default Home
