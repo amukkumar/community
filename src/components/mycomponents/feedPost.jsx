@@ -5,8 +5,9 @@ import { BookMarked, MessageSquareDiff, Share2 } from 'lucide-react'
 import post from '@/assets/testpost.jpeg'
 import SeeMoreText from '@/components/ui/seeMoreText'
 import Link from 'next/link'
+import dayjs from 'dayjs'
 
-const FeedPost = () => {
+const FeedPost = ({ data }) => {
 
     return (
         <div className='border rounded-sm shadow-md p-2 md:max-w-[600px] min-w-[350px] bg-white'>
@@ -17,14 +18,22 @@ const FeedPost = () => {
                         <AvatarFallback>CN</AvatarFallback>
                     </Avatar>
                     <div>
-                        <p className='text-sm font-semibold'>John Deo</p>
-                        <p className='text-xs'>MYP 1</p>
+                        <p className='text-sm font-semibold'>{data?.name}</p>
+                        <p className='text-xs'>{data?.curricuram}</p>
                     </div>
                 </div>
-                <p className='text-xs text-gray-500'>26 min ago</p>
+                <p className='text-xs text-gray-500'>
+                    {dayjs().diff(data?.createdAt, 'minutes') < 60
+                        ? dayjs().diff(data?.createdAt, 'minutes') + " minutes ago"
+                        : dayjs().diff(data?.createdAt, 'hour') < 24
+                            ? dayjs().diff(data?.createdAt, 'hour') + " hours ago"
+                            : dayjs().diff(data?.createdAt, 'day') < 6
+                                ? dayjs().diff(data?.createdAt, 'day') + " days ago"
+                                : dayjs(data?.createdAt).format('DD-MMM-YYYY')}
+                </p>
             </div>
             <div className='mb-2'>
-                <SeeMoreText text='Basics of statistics in the Basics of statistics in the simplest language with real-life examples and implications simplest language with real-life examples and implications Basics of statistics in the simplest language with real-life examples and implications' />
+                <SeeMoreText text={data?.description} />
             </div>
             <Image src={post} className='md:h-96 w-full h-full aspect-square object-cover' />
             <div className='border'>

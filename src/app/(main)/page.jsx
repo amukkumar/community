@@ -1,18 +1,17 @@
-import React from 'react'
-import TopFilter from '@/components/mycomponents/topFilter'
-import FeedPost from '@/components/mycomponents/feedPost'
+"use client"
+import { useEffect } from 'react';
 
-
-function Home() {
-  return (
-    <div className=''>
-      <TopFilter />
-      <div className=''>
-        <FeedPost />
-        <FeedPost />
-      </div>
-    </div>
-  )
+function getCookie(name) {
+  const value = `; ${document.cookie}`;
+  const parts = value.split(`; ${name}=`);
+  if (parts.length === 2) return parts.pop().split(';').shift();
 }
 
-export default Home
+export default function HomePage() {
+  useEffect(() => {
+    const sharedData = getCookie('sharedData');
+    console.log('Shared Data:', sharedData); // Output: user123
+  }, []);
+
+  return <div>Welcome to the Community!</div>;
+}

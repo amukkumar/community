@@ -11,12 +11,12 @@ const SeeMoreText = ({ text }) => {
     };
 
     // Determine whether to show the full text or a truncated version
-    const displayedText = isExpanded ? text : text.slice(0, characterLimit);
+    const displayedText = isExpanded ? text : text?.slice(0, characterLimit);
 
     return (
         <p className='text-sm leading-5'>
             {displayedText}
-            {text.length > characterLimit && !isExpanded && (
+            {text?.length > characterLimit && !isExpanded && (
                 <>
                     ...<span
                         className='text-xs text-primary cursor-pointer'
